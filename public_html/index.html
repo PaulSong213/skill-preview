@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/vue@next"></script>
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <link href="./css/app.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <div  id="app" class="bg-gray-900 overflow-hidden relative"
+              style="min-height: 100vh;max-height: 100vh">
+            <transition name="up">
+            <h1 v-if="!isStarted"
+                class="skill-title absolute w-full text-gray-900 text-3xl text-center 
+                top-1/2 font-bold tracking-wider transform -translate-y-1/2"
+                style="font-size: 15vw" style="-webkit-text-stroke: 5px white;">MY SKILLS</h1>
+            <h1 v-else
+                class="absolute w-full text-white text-5xl text-center 
+                top-8 font-bold tracking-wider transform -translate-y-1/2"
+                >MY SKILLS</h1>   
+            </transition>    
+                <transition name="pop">
+                    <section class="absolute m-auto left-1/2 top-1/2 transform 
+                        -translate-x-1/2 -translate-y-1/2  p-5 px-10 rounded-lg
+                        shadow-xl bg-gradient-to-r from-blue-200 via-green-100
+                        to-blue-200" style="max-width: 800px;" id="skill-container"
+                        v-if="isStarted">
+                        <div>
+                            <skill-tab :skills="skillSets"></skill-tab>
+                        </div>
+                    </section>
+                </transition>
+        </div>
+    </body>
+    
+    <script>
+        
+        const Main = {
+        data() {
+          return {
+              skillSets: Array(),
+              isStarted: false
+          }
+        },
+        mounted(){
+            this.getDatas(),
+            this.startShow()
+        },
+        methods: {
+            getDatas(){
+                fetch('./db.json')
+                    .then(response => response.json())
+                    .then( (data) => { this.skillSets = data.skills; });
+               
+            },
+            startShow(){
+                setTimeout(()=> {
+                this.isStarted = true;
+                 
+                }, 1500);
+            },
+        }
+      }
+     
+      const app = Vue.createApp(Main)
+      
+      .component('skill-tab', {
+        props: ['skills'],
+        template: `
+                <section v-for="skill in skills"
+                    :key="skill.id"
+                    class="mb-3 md:mb-0 bg-transparent"
+                    >
+                <div class="flex flex-col md:flex-row  space-x-2 space-y-1 md:space-y-0 mb-3">
+                <h3 
+                    class="w-max skill-btn">
+                        <span class="tooltiptext">
+                        <iframe  :src="skill.descriptionLink" width="500px" height="500px"></iframe></span>
+                        <div class="bg-green-400 bg-gradient-to-r from-green-200 to-green-400
+                            w-44 p-2 flex space-x-4 rounded-md cursor-pointer transform hover:scale-105
+                            border border-blue-100 ">
+
+                           <img class="w-8 h-8 opacity-90 select-none" :src=" './img/skills/' + skill.logo " />
+                           <h1 class="text-base md:text-lg font-bold table my-auto select-none text-green-900">
+                               {{skill.title}}</h1>
+                        </div>
+
+                </h3>
+
+                <div v-for="set in skill.skillSet"
+                     :key="set.id"
+                     class="max-w-max">
+                    <h3
+                       class="max-w-max skill-btn">    
+                        <span class="tooltiptext">
+                        <iframe :src="set.descriptionLink" width="500px" height="500px"></iframe></span>
+                        <div class="bg-blue-400 bg-gradient-to-r from-blue-300 to-blue-500
+                            w-48 p-2 flex space-x-4 rounded-md cursor-pointer transform hover:scale-105
+                            ml-14 md:ml-0">
+                           <img class="w-8 h-8 opacity-90 select-none" :src=" './img/skills/' + set.logo " />
+                           <h1 class="text-lg font-bold table my-auto select-none text-green-900">
+                               {{set.title}}</h1>
+                        </div>
+                    </h3>    
+                </div>
+                </div>    
+            </section>
+            `
+      })
+      .mount('#app');
+    </script>
+</html>

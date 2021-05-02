@@ -1,0 +1,62 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 1 May 2021, 15:57:07
+    Author     : songaliasongalia
+*/
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: all 0.5s ease;
+}
+
+.pop-enter-from,
+.pop-leave-to {
+  opacity: 0;
+  top: 60%
+}
+
+.up-enter-active,
+.up-leave-active {
+  transition: all 0.5s ease;
+}
+
+.up-enter-from{
+    opacity: 1;
+    
+}
+.up-leave-to {
+  opacity: 0;
+  height: 0;
+  color: aqua;
+}
+
+
+.skill-title{
+  text-shadow: 0 0 10px rgba(255,255,255,1); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 10px rgba(255,255,255,1);
+  -webkit-text-shadow: 0 0 10px rgba(255,255,255,1);
+}
+.skill-btn .tooltiptext {
+  visibility: hidden;
+  width: 510px;
+  height: 505px;
+  background-color:rgb(207,246,232);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.skill-btn:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+
